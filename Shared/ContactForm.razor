@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Components.Forms;
+<Card TextAlignment="TextAlignment.Center">
+    <CardHeader>
+        <DisplayHeading Size="DisplayHeadingSize.Is4">
+            @Mode Contact
+        </DisplayHeading>
+    </CardHeader>
+    @if (Contact is not null)
+    {
+        <CardBody>
+
+            <EditForm Model="@Contact"
+                      OnInvalidSubmit="(() => HandleSubmitAsync(false))"
+                      OnValidSubmit="(() => HandleSubmitAsync(true))">
+                <DataAnnotationsValidator />
+                <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+                <Fields>
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">First Name</Badge>
+                        <TextEdit @bind-Text="@Contact.FirstName" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">Last Name</Badge>
+                        <TextEdit @bind-Text="@Contact.LastName" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">Phone Number</Badge>
+                        <TextEdit @bind-Text="@Contact.Phone" Role="TextRole.Telephone" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+                </Fields>
+
+                <Field>
+                    <Badge TextColor="TextColor.Black50">Street</Badge>
+                    <TextEdit @bind-Text="@Contact.Street" Role="TextRole.Text" TextAlignment="TextAlignment.Center"></TextEdit>
+                </Field>
+
+                <Fields>
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">City</Badge>
+                        <TextEdit @bind-Text="@Contact.City" Role="TextRole.Text" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">State</Badge>
+                        <TextEdit @bind-Text="@Contact.State" Role="TextRole.Text" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+
+                    <Field>
+                        <Badge TextColor="TextColor.Black50">Zip Code</Badge>
+                        <TextEdit @bind-Text="@Contact.ZipCode" Role="TextRole.Text" TextAlignment="TextAlignment.Center"></TextEdit>
+                    </Field>
+                </Fields>
+
+                <Button Color="Color.Warning" Disabled="@Busy" Clicked="CancelAsync">
+                    Cancel
+                </Button>&nbsp;
+                <Button Color="Color.Primary" Disabled="@Busy" Type="ButtonType.Submit">
+                    Submit
+                </Button>
+            </EditForm>
+        </CardBody>
+    }
+</Card>

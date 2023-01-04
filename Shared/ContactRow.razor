@@ -1,0 +1,42 @@
+﻿@inject IContactFilters Filters
+
+@if (CurrentContact is not null)
+{
+    <TableRow>
+        <TableRowHeader>
+            <a title="Edit" href="edit/@CurrentContact.Id">
+                &nbsp;📝&nbsp;
+            </a>
+            @if (CanDelete)
+            {
+                <span @onclick="DeleteRequestAsync"
+                      title="Delete" class="clickable red">❌</span>
+            }
+            else
+            {
+                <span>&nbsp;</span>
+            }
+            &nbsp;
+        </TableRowHeader>
+        <TableRowCell>
+            <a href="@ViewLink" alt="View Details"
+               title="View Details">
+                @Name
+            </a>
+        </TableRowCell>
+        @if (!DeleteConfirmation)
+        {
+            <TableRowCell>@CurrentContact.Phone</TableRowCell>
+            <TableRowCell>@CurrentContact.Street</TableRowCell>
+            <TableRowCell>@CurrentContact.City</TableRowCell>
+            <TableRowCell>@CurrentContact.State</TableRowCell>
+            <TableRowCell>@CurrentContact.ZipCode</TableRowCell>
+        }
+        else
+        {
+            <TableRowCell>
+                <DeletePrompt Confirmation="ConfirmAsync" />
+            </TableRowCell>
+        }
+    </TableRow>
+}

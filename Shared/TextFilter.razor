@@ -1,0 +1,32 @@
+﻿@using System.Timers
+
+@inject IContactFilters Filters
+@implements IDisposable
+
+
+
+<Addons>
+    <Addon AddonType="AddonType.Body">
+        <Field>
+            <Badge TextColor="TextColor.Black50">Filter</Badge>
+            <br/>
+            @* No quick 1:1 that I know of for blazorise, leave as vanilla since this is just a demo app. *@
+            <input type="text" class="form-control" autofocus @bind-value="FilterText" @bind-value:event="oninput" />
+        </Field>
+        <Field>
+            <Badge TextColor="TextColor.Black50">Type</Badge>
+            <Select @bind-SelectedValue="SelectedColumn">
+                @foreach (ContactFilterColumns column in (ContactFilterColumns[]) Enum.GetValues(typeof(ContactFilterColumns)))
+                {
+                    <SelectItem Value="@((int)column)">@(column.ToString())</SelectItem>
+                }
+            </Select>
+        </Field>
+    </Addon>
+    <Addon AddonType="AddonType.End">
+        <Button Color="Color.Danger" Clicked="@(() => FilterText = string.Empty)" Margin="Margin.Is4.OnY">Clear</Button>
+    </Addon>
+</Addons>
+
+
+

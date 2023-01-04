@@ -1,0 +1,11 @@
+﻿<div class="alert alert-danger">
+    <Buttons>
+        <Tooltip Text="Cancel deleting this contact">
+            <Button Color="Color.Warning" Clicked="@(() => ConfirmAsync(false))"><Icon Name="IconName.Backward"></Icon></Button>
+        </Tooltip>
+
+        <Tooltip Text="Delete this contact">
+            <Button Color="Color.Danger" Clicked="@(() => ConfirmAsync(true))"><Icon Name="IconName.Delete"></Icon></Button>
+        </Tooltip>
+    </Buttons>
+</div>

@@ -1,0 +1,99 @@
+﻿@page "/View/{ContactId:int}"
+
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<ContactContext> DbFactory
+@inject IPageHelper PageHelper
+@inject EditSuccess EditSuccessState
+@inject NavigationManager Navigation
+
+@if (_notFound && !_loading)
+{
+    <div class="alert alert-warning">A contact with that id doesn't exist.</div>
+}
+else
+{
+    @if (Contact is null || _loading)
+    {
+        <div class="alert alert-info">Loading...</div>
+    }
+    else
+    {
+        <Card TextAlignment="TextAlignment.Center" Height="Height.Is100">
+            <CardHeader>
+                <CardImage Source="https://picsum.photos/800/600" Border="Border.RoundedCircle" Style="height: 150px; width: 150px;" Flex="Flex.AlignSelf.Center"></CardImage>
+                <DisplayHeading Size="DisplayHeadingSize.Is4">
+                    @Contact.LastName, @Contact.FirstName
+                </DisplayHeading>
+            </CardHeader>
+            <CardBody Height="Height.Is100">
+                <Fields>
+                    <Field>
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>
+                                    <Icon Name="IconName.Phone"></Icon>
+                                </AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Role="TextRole.Telephone" ReadOnly Text="@Contact.Phone"/>
+                            </Addon>
+                        </Addons>
+                    </Field>
+                    <Field>
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>
+                                    <Icon Name="IconName.Home"></Icon>
+                                </AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Role="TextRole.Text" ReadOnly Text="@($"{Contact.Street}, {Contact.State}, {Contact.City}, {Contact.ZipCode}")"/>
+                            </Addon>
+                        </Addons>
+                    </Field>
+                </Fields>
+                
+                @if (!_deleted)
+                {
+                    <a class="btn btn-primary" href="edit/@Contact.Id" title="Edit">Edit</a>
+
+                    <span>&nbsp;</span>
+                    @if (!_showConfirmation)
+                    {
+                        <button class="btn btn-danger" @onclick="@(() => { _showConfirmation = true; EditSuccess = false; })">Delete</button>
+                    }
+                    else
+                    {
+                        <br/>
+                        <br/>
+                        <DeletePrompt Confirmation="@(async result => await ConfirmAsync(result))"/>
+                    }
+                }
+                else
+                {
+                    <div class="btn btn-danger">🚫 This item has been deleted.</div>
+                }
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Primary" Clicked="@(() => Navigation.NavigateTo($"/{PageHelper.Page}"))">
+                    <Icon Name="IconName.Backward"></Icon>
+                    Back to Grid
+                </Button>
+            </CardFooter>
+        </Card>
+
+        @if (EditSuccess)
+        {
+            <Alert Color="Color.Success" @bind-Visible="@_alertVisible">
+                <AlertDescription>
+                    Successfully updated the contact.
+                </AlertDescription>
+                <AlertMessage>
+                    @Contact.LastName, @Contact.FirstName
+                </AlertMessage>
+                <CloseButton Float="Float.End"/>
+            </Alert>
+        }
+    }
+}

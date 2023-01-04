@@ -1,0 +1,5 @@
+﻿@inject IContactFilters Filters
+
+<Button Color="Color.Primary" Disabled="@Filters.Loading" Clicked="ToggleAsync" Size="Size.ExtraSmall">
+    Swap First / Last @*@Label*@
+</Button>

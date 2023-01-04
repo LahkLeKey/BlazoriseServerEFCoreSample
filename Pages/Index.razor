@@ -1,0 +1,89 @@
+﻿@page "/"
+@page "/{Page:int}"
+
+@inject IContactFilters Filters
+@inject IDbContextFactory<ContactContext> DbFactory
+@inject NavigationManager Navigation
+@inject GridQueryAdapter QueryAdapter
+
+<GridWrapper @ref="Wrapper"
+             FilterChanged="ReloadAsync"
+             DeleteRequested="id => Wrapper!.DeleteRequestId = id">
+    <Heading Size="HeadingSize.Is1" TextAlignment="TextAlignment.Center" Margin="Margin.Is2.FromTop">
+        Contacts
+    </Heading>
+        <Row>
+            <Fields>
+                <Field Padding="Padding.Is4.FromTop">
+                    <TextFilter />
+                </Field>
+            </Fields>
+        </Row>
+
+    <Table>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>
+                    <NameToggle />
+                </TableHeaderCell>
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.Name))">
+                    <SortIndicator Column="@(ContactFilterColumns.Name)" />&nbsp;Name
+                </TableHeaderCell>
+
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.Phone))">
+                    <SortIndicator Column="@(ContactFilterColumns.Phone)" />📞 Phone
+                </TableHeaderCell>
+
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.Street))">
+                    <SortIndicator Column="@(ContactFilterColumns.Street)" />🏠 Street Address
+                </TableHeaderCell>
+
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.City))">
+                    <SortIndicator Column="@(ContactFilterColumns.City)" />City
+                </TableHeaderCell>
+
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.State))">
+                    <SortIndicator Column="@(ContactFilterColumns.State)" />State
+                </TableHeaderCell>
+
+                <TableHeaderCell Clicked="@(()=>ToggleAsync(ContactFilterColumns.ZipCode))">
+                    <SortIndicator Column="@(ContactFilterColumns.ZipCode)" />ZipCode
+                </TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @if (Filters.Loading || Contacts is null)
+            {
+                <TableRow>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Alert Color="Color.Info">
+                            Loading...
+                        </Alert>
+                    </Column>
+                </TableRow>
+            }
+
+            @if (Contacts is not null && Contacts.Count == 0)
+            {
+                <TableRow>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Alert Color="Color.Warning">No contacts found.</Alert>
+                    </Column>
+                </TableRow>
+            }
+
+            @if (Contacts is not null)
+            {
+                @foreach (var contact in Contacts)
+                {
+                    <ContactRow @key=contact CurrentContact="@contact"
+                                DeleteContact="DeleteContactAsync" />
+                }
+            }
+        </TableBody>
+    </Table>
+</GridWrapper>
+
+@code {
+
+}

@@ -1,0 +1,10 @@
+﻿@inject IContactFilters Filters
+
+@if (Column == Filters.SortColumn)
+{
+    <span>@SortSymbol</span>
+}
+else
+{
+    <span>&nbsp;</span>
+}

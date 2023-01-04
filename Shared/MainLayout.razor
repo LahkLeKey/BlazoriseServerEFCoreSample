@@ -1,0 +1,56 @@
+﻿@inherits LayoutComponentBase
+@using Blazorise
+<PageTitle>BlazorServerEFCoreSample</PageTitle>
+
+<Layout Sider>
+    <Layout>
+        <LayoutHeader Fixed>
+            <Bar Breakpoint="Breakpoint.Desktop"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarBrand>
+                    Blazor(ise) Server EF Core Template. By Kyle Halek
+                </BarBrand>
+            </Bar>
+        </LayoutHeader>
+        <LayoutContent>
+            <Container Fluid Height="Height.Is100">
+                @Body
+            </Container>
+        </LayoutContent>
+    </Layout>
+    <LayoutSider>
+        <LayoutSiderContent Background="Background.Light">
+            <Layout Sider>
+                <LayoutSider>
+                    <LayoutSiderContent>
+                        <Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+                             Breakpoint="Breakpoint.FullHD"
+                             Background="Background.Light"
+                             ThemeContrast="ThemeContrast.Light">
+                            <BarToggler />
+                            <BarBrand>
+                                <BarItem>
+                                    <BarLink To="/1">
+                                        <BarIcon IconName="IconName.Home" Margin="Margin.Is2.FromEnd" />
+                                        Home
+                                    </BarLink>
+                                </BarItem>
+                            </BarBrand>
+                            <BarMenu>
+                                <BarItem>
+                                    <BarLink To="/add">
+                                        <BarIcon IconName="IconName.UserPlus" Margin="Margin.Is2.FromEnd" />
+                                        <Text VerticalAlignment="VerticalAlignment.Middle">
+                                            Add Contact
+                                        </Text>
+                                    </BarLink>
+                                </BarItem>
+                            </BarMenu>
+                        </Bar>
+                    </LayoutSiderContent>
+                </LayoutSider>
+            </Layout>
+        </LayoutSiderContent>
+    </LayoutSider>
+</Layout>

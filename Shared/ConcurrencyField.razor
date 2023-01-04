@@ -1,0 +1,17 @@
+﻿@typeparam TModel
+
+@if (Show)
+{
+    @if (IsDelta)
+    {
+        <span class="alert alert-warning"><strong>@property</strong></span>
+    }
+    else
+    {
+        <span class="alert alert-success">(same)</span>
+    }
+}
+
+@code {
+
+}

@@ -1,0 +1,24 @@
+﻿@page "/add"
+
+@inject IDbContextFactory<ContactContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+
+@if (Contact is not null)
+{
+    <ContactForm Busy="@_busy" 
+                   Contact="@Contact" 
+                   IsAdd="true"
+                   CancelRequest="Cancel"
+                   ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
+}
+@if (_success)
+{
+    <br />
+    <div class="alert alert-success">The contact was successfully added.</div>
+}
+@if (_error)
+{
+    <br />
+    <div class="alert alert-danger">Failed to add the contact (@_errorMessage).</div>
+}

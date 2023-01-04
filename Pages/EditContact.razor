@@ -1,0 +1,38 @@
+﻿@page "/edit/{ContactId:int}"
+
+@implements IDisposable
+
+@inject IDbContextFactory<ContactContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+@inject EditSuccess EditSuccessState
+
+@if (Contact is null && !_busy)
+{
+    <p>Could not find contact with id @ContactId.</p>
+}
+else
+{
+    <ContactForm Busy="@_busy" Contact="@Contact"
+                 DbContact="@DbContact"
+                 IsAdd="false"
+                 CancelRequest="Cancel"
+                 ValidationResult="@(ValidationResultAsync)" />
+}
+@if (_concurrencyError)
+{
+    <br />
+    <div class="alert alert-danger">
+        <p>
+            The contact details have changed since it was last loaded. The updated fields are highlighted in the form.
+            Please choose an option:
+        </p>
+        <p><b>Cancel</b> to lose your changes and keep the database version.</p>
+        <p><b>Submit</b> to force an update with your version.</p>
+    </div>
+}
+@if (_error)
+{
+    <br />
+    <div class="alert alert-danger">Failed to update the contact (@_errorMessage).</div>
+}
